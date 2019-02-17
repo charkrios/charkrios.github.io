@@ -1,32 +1,106 @@
 <!DOCTYPE html>
+<meta charset="ISO-8859-1">
 <html>
-<head>
-  <title>Water 2.0 Console</title>
-</head>
-<body>
-<h2>Conectividad con 'central' a traves de comandos html/javascript con document.forms</h2>
 
-<form id="frm1">
-  Action: <input type="text" name="action" value="Watering"><br>
-  Set: <input type="text" name="set" value="1h"><br><br>
+<head>
+<title>Arduino HTML Console - floratemple</title>
+<style>
+
+#commands {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#commands th, #commands td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#commands tr:nth-child(even){background-color: #f2f2f2;}
+
+#commands tr:hover {background-color: #ddd;}
+
+#commands th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Conectividad con arduino 'central' a traves de comandos html/javascript con document.forms</h2>
+<br>
+<table id="commands">
+  <tr>
+    <th>Action:</th>
+    <th>Set</th>
+    <th>Info</th>
+  </tr>
+
+  <tr>
+    <td>History</td>
+    <td>'date'</td>
+    <td>'' = empty. Equals 'today'<br>'today' = as today's history<br>'today?' as last (actual) light peryod<br>'month'<br>'temple'->?</td>
+
+  </tr>
+
+  <tr>
+    <td>Status</td>
+    <td></td>
+    <td>Show 'rightNow' sensor values</td>
+  </tr>
+
+  <tr>
+    <td>Water</td>
+    <td>'time'</td>
+    <td>x h = x hours <br>x min = x minuts</td>
+  </tr>
+
+  <tr>
+    <td>Timer</td>
+    <td>(a/r), s'time', d'time'<br>(a/r), s'time', f'time'</td>
+    <td>'a, ' = add  / 'r, ' = remove<br>Choose between:<br>s'time', d'time' = starting (0 - 24)h (instead of am/pm), duration time (in hours)<br>s'time', f'time' = starting (0 - 24)h (instead of am/pm), final (0 - 24)h</td>
+  </tr>
+
+  <tr>
+    <td>Timers</td>
+    <td></td>
+    <td>Show actual timers</td>
+  </tr>
+</table>
+<br>
+<form id="command">
+  Action: <input type="text" name="action" value="History"><br>
+  Set: <input type="text" name="set" value="Today"><br><br>
   <input type="submit" value="Submit">
 </form>
 
-<p>Pulsa el boton de abajo para enviar el comando a la central</p>
+<p>Pulsa el boton de abajo para formular el comando a la central
+<br>Pulsar boton 'Submit'para enviar a Arduino central</p>
 
-<button onclick="myFunction()">Enviar comando</button>
+<button onclick="myFunction()">Formular comando</button>
 
-<p id="demo"></p>
+<p id="code"></p>
 
 <script>
 function myFunction() {
-  var x = document.forms["frm1"];
+  var x = document.forms["command"];
   var text = "";
-  var i;
-  for (i = 0; i < x.length ;i++) {
-    text += x.elements[i].value + "<br>";
+  if (x.elements[0].value == "History" || x.elements[0].value == "Status" || x.elements[0].value == "Water" || x.elements[0].value == "Timers" || x.elements[0].value == "Timer"){
+    var i;
+    for (i = 0; i < x.length ;i++) {
+      text += x.elements[i].value + "<br>";
+    }
+  } else {
+    text = "Action? syntax error";
   }
-  document.getElementById("demo").innerHTML = text;
+  document.getElementById("code").innerHTML = text;
 }
 </script>
 
